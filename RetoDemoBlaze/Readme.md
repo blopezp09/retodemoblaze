@@ -122,7 +122,7 @@ Por ejemplo si se requiere un nombre aleatorio, se realiza lo siguiente
     registroLogueoUsuarioModel.setUsuario(mock.users().val());
 ```
 
-## ➡️ Selcción de productos aleatorios
+## ➡️ Selección de productos aleatorios
 
 Para esta implementación se obtienen los css selectors de manera general y luego con un método de generación de números aleatorios, se lo asignamos al selector. 
 
