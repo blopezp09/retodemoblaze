@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'idea'
+    id "net.serenity-bdd.serenity-gradle-plugin" version "3.9.8"
+    id "io.spring.dependency-management" version "1.1.0"
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+defaultTasks 'clean', 'test', 'aggregate'
+group 'co.com.sofka'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    serenityVersion = '3.9.8'
+    restAssuredVersion = '3.9.8'
+    serenityCucumberVersion = '3.9.8'
+    junitVersion = '5.9.2'
+}
+
+dependencies {
+    implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
+    implementation group: 'net.serenity-bdd', name: 'serenity-junit',                version: serenityVersion
+    implementation group: 'net.serenity-bdd', name: 'serenity-screenplay-webdriver', version: serenityVersion
+    implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
+    implementation group: 'net.serenity-bdd', name: 'serenity-assertions',           version: serenityVersion
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
+    implementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: serenityCucumberVersion
+    implementation 'net.serenity-bdd:serenity-single-page-report:3.9.8'
+    implementation 'net.serenity-bdd:serenity-ensure:3.9.8'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
+    implementation group: 'com.guicedee.services', name: 'sl4j', version: '1.0.13.5-jre14'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.4.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
+    implementation group: 'org.json', name: 'json', version: '20230227'
+    implementation 'net.andreinc:mockneat:0.4.8'
+}
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+    systemProperty "cucumber.options", System.getProperty("cucumber.options")
+}
+
+gradle.startParameter.continueOnFailure = true
+test.finalizedBy(aggregate)
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
